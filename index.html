@@ -85,6 +85,16 @@
     }
   </style>
 
+  
+</head>
+
+<body>
+  <label for="description">คำอธิบายอาการ</label><br>
+  <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
+  <label for="image">รูปภาพประกอบ:</label><br>
+  <input type="file" id="image" name="image"><br><br>
+  <button id="submitButton">Submit</button>
+
   <script>
     
     liff.init({ liffId: "2000454945-mEl8eZP8" }, () => {
@@ -99,18 +109,7 @@
     console.log(err.code, err.message);
 });
 
-
-
-
   </script>
-</head>
-
-<body>
-  <label for="description">คำอธิบายอาการ</label><br>
-  <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
-  <label for="image">รูปภาพประกอบ:</label><br>
-  <input type="file" id="image" name="image"><br><br>
-  <button id="submitButton">Submit</button>
 </body>
 
 </html>
