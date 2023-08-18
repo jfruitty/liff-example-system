@@ -100,60 +100,6 @@
 });
 
 
-    function runApp() {
-    document.getElementById("submitButton").addEventListener("click", function() {
-      var description = document.getElementById("description").value;
-
-      var image = document.getElementById("image").files[0];
-
-
-      var profile = liff.getProfile();
-
-
-      //var userId = <?=  userid ?> ;
-
-      var displayName = profile.userId
-      //var displayName = <?=  displayname ?> ;
-
-      var displayName = profile.displayName
-      if (description && image) {
-
-       alert("ระบบใช้เวลาบันทึกสักครู่ โปรดอย่าปิดหน้าต่าง");
-
-        const fr = new FileReader();
-
-        fr.onload = function(e) {
-      const obj = {
-        filename: image.name,
-        mimeType: image.type,
-        bytes: [...new Int8Array(e.target.result)]
-      };
-
-      google.script.run.withSuccessHandler(onSuccess).uploadFileToDrive(obj, "CustomerImages", image.name);
-
-
-    };
-
-    fr.readAsArrayBuffer(image);
-
-
-        
-        function onSuccess(url) {
-          google.script.run.updateSheet(userId, displayName, description, url);
-
-          alert("Form submitted successfully!");
-
-        }
-      } else {
-        alert("Please provide both description and image.");
-
-      }
-    });
-
-
-    }
-
-    
 
 
   </script>
