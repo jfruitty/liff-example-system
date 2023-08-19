@@ -34,119 +34,50 @@
       console.log(err.code, err.message);
     });
 
-async function uploadFileToDrive(fileBlob, folderName, fileName) {
-  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec?api=uploadFileToDrive"; // Replace with your script URL
-  
-  const requestData = {
-    fileBlob: fileBlob,
-    folderName: folderName,
-    fileName: fileName
-  };
 
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      mode: "no-cors" // Use no-cors mode
-    });
 
-    if (response.ok) {
-      const data = await response.json();
-      onSuccess(data.fileUrl);
-      if (data.success) {
-        console.log("File uploaded successfully. File URL:", data.fileUrl);
-      } else {
-        console.error("File upload failed:", data.message);
-      }
-    } else {
-      console.error("Request failed:", response.status, response.statusText);
-    }
-  } catch (error) {
-    console.error("An error occurred:", error);
-  }
-}
-
-async function sendDataToScript(userId, displayName, description, imageUrl) {
-  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec?api=updateSheet"; // Replace with your script URL
-
-  const requestData = {
-    userId: userId,
-    displayName: displayName,
-    description: description,
-    imageUrl: imageUrl
-  };
-
-  try {
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      mode: "no-cors" // Use no-cors mode
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        console.log("Data sent successfully:", data.message);
-      } else {
-        console.error("Sending data failed:", data.message);
-      }
-    } else {
-      console.error("Request failed:", response.status, response.statusText);
-    }
-  } catch (error) {
-    console.error("An error occurred:", error);
-  }
-}
 
     function runApp() {
-      document.getElementById("submitButton").addEventListener("click", function () {
-        var description = document.getElementById("description").value;
-        var image = document.getElementById("image").files[0];
-        var profile = liff.getProfile();
+      
+    document.getElementById("submitButton").addEventListener("click", function() {
+      var description = document.getElementById("description").value;
+      var imageInput = document.getElementById("image");
+      var imageFile = imageInput.files[0];
+      
+      if (!description || !imageFile) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
+      var formData = new FormData();
+      formData.append("fileBlob", imageFile);
+      formData.append("folderName", "your-folder-name");
+      formData.append("fileName", imageFile.name);
 
-        var userId = profile.userId;
-
-        var displayName = profile.displayName;
-
-        if (description && image) {
-
-          alert("ระบบใช้เวลาบันทึกสักครู่ โปรดอย่าปิดหน้าต่าง");
-
-          const fr = new FileReader();
-
-          fr.onload = function (e) {
-            const fileBlob = {
-              filename: image.name,
-              mimeType: image.type,
-              bytes: [...new Int8Array(e.target.result)]
-            };
-
-            const folderName = "CustomerImages";
-            const fileName = fileBlob.filename;
-
-            uploadFileToDrive(fileBlob, folderName, fileName);
-
-          };
-
-          fr.readAsArrayBuffer(image);
-
-          function onSuccess(url) {
-           
-            sendDataToScript(userId, displayName, description, imageUrl);
-            alert("Form submitted successfully!");
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+              alert("File uploaded successfully.");
+            } else {
+              alert("An error occurred: " + response.message);
+            }
+          } else {
+            alert("An error occurred while uploading the file.");
           }
-        } else {
-          alert("Please provide both description and image.");
-
         }
-      });
+      };
+      
+      var apiData = {
+        api: "uploadFileToDrive"
+      };
+      xhr.send(JSON.stringify({ postData: { contents: JSON.stringify(apiData) }, fileBlob: imageFile }));
+    });
+ 
 
     }
 
