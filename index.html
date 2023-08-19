@@ -35,8 +35,6 @@
     });
 
 
-
-
     function runApp() {
       
     document.getElementById("submitButton").addEventListener("click", function() {
@@ -51,7 +49,7 @@
 
       var formData = new FormData();
       formData.append("fileBlob", imageFile);
-      formData.append("folderName", "your-folder-name");
+      formData.append("folderName", "CustomerImages");
       formData.append("fileName", imageFile.name);
 
       var xhr = new XMLHttpRequest();
