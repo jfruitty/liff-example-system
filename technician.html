@@ -3,44 +3,8 @@
 
 <head>
   <base target="_top">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    select, textarea, input[type="file"] {
-      display: block;
-      width: 25%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    #result {
-      margin-top: 10px;
-    }
-  </style>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.13.0/sdk.js"></script>
+  <link rel="stylesheet" href="styles.css">
   <script>
     google.script.run
     .withSuccessHandler(updateSelectOptions)
