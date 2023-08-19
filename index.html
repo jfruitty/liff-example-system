@@ -7,36 +7,28 @@
 </head>
 
 <body>
-  <label for="description">คำอธิบายอาการ</label><br>
+  <label for="description">คำอธิบาย1</label><br>
   
 
   <script>
 
-    liff.init({ liffId: "2000454945-mEl8eZP8" }, () => {
-      if (liff.isLoggedIn()) {
-        const idToken = liff.getDecodedIDToken();
-        console.log(idToken);
-        const profile = liff.getProfile();
-        console.log(profile);
-
-        runApp(profile);
-
-
-      } else {
-        liff.login();
-
-      }
-    }).catch((err) => {
-      // Error happens during initialization
-      console.log(err.code, err.message);
+liff.init({ liffId: "2000454945-mEl8eZP8" }).then(() => {
+  if (liff.isLoggedIn()) {
+    liff.getProfile().then(profile => {
+      runApp(profile);
+    }).catch(error => {
+      console.log("Error getting profile:", error);
     });
+  } else {
+    liff.login();
+  }
+}).catch(error => {
+  console.log("LIFF initialization error:", error);
+});
 
-
-    function runApp(profile) {
-     
-      location.replace('https://script.google.com/macros/s/AKfycbxphRqO3JH4keP9levF6ZNpCV3PURBlMNBHQbRIxZnEpWfp08se_ke73BQB1lDE71YF/exec?page=form&userid='+profile.userId+'&displayname='+profile.displayName)
-      console.log(profile);
-    }
+function runApp(profile) {
+  location.replace('https://script.google.com/macros/s/AKfycbxphRqO3JH4keP9levF6ZNpCV3PURBlMNBHQbRIxZnEpWfp08se_ke73BQB1lDE71YF/exec?page=form&userid='+profile.userId+'&displayname='+profile.displayName);
+}
 
 
 
