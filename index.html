@@ -8,10 +8,7 @@
 
 <body>
   <label for="description">คำอธิบายอาการ</label><br>
-  <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
-  <label for="image">รูปภาพประกอบ:</label><br>
-  <input type="file" id="image" name="image"><br><br>
-  <button id="submitButton">Submit</button>
+  
 
   <script>
 
@@ -36,47 +33,10 @@
 
 
     function runApp() {
+      const profile = liff.getProfile();
+      console.log(profile);
+      location.replace('https://script.google.com/macros/s/AKfycbwbaNAUCjFkVzhacrPPf0SrV3yLpPUwsg5PNZ7XMoJRLkJVpnkwFCPit8M9FnKhzEm3/exec?page=form')
       
-    document.getElementById("submitButton").addEventListener("click", function() {
-      var description = document.getElementById("description").value;
-      var imageInput = document.getElementById("image");
-      var imageFile = imageInput.files[0];
-      
-      if (!description || !imageFile) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      var formData = new FormData();
-      formData.append("fileBlob", imageFile);
-      formData.append("folderName", "CustomerImages");
-      formData.append("fileName", imageFile.name);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-              alert("File uploaded successfully.");
-            } else {
-              alert("An error occurred: " + response.message);
-            }
-          } else {
-            alert("An error occurred while uploading the file.");
-          }
-        }
-      };
-      
-      var apiData = {
-        api: "uploadFileToDrive"
-      };
-      xhr.send(JSON.stringify({ postData: { contents: JSON.stringify(apiData) }, fileBlob: imageFile }));
-    });
- 
-
     }
 
 
