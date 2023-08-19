@@ -1,69 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Part Selection</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.13.0/sdk.js"></script>
   <link rel="stylesheet" href="styles.css">
-  
-  <script>
-
-    google.script.run
-    .withSuccessHandler(updateSelectOptions)
-    .getIdsforTechnician(<?=  userid ?>);
-
-    function updateSelectOptions(ids) {
-
-      var select = document.getElementById('selectId');
-      ids.forEach(function(id) {
-        var option = document.createElement('option');
-        option.value = id;
-        option.text = id;
-        select.appendChild(option);
-      });
-    }
-
-    function updateStock() {
-      var goodId = document.getElementById("goodId").value;
-     
-      var amount = document.getElementById("amount").value;
-
-      var id = document.getElementById('selectId').value;
-
-
-      google.script.run.withSuccessHandler(onSuccess).updateStock(goodId, amount);
-      google.script.run.withSuccessHandler(onSuccess).updateparttojob(id, goodId, amount)
-      
-    }
-    
-    google.script.run.withSuccessHandler(updategoodSelectOptions).getStockdata();
-
-
-  function onSuccess(msg) {
-            alert(msg);
-        }
-    
-   function updategoodSelectOptions(datas) {
-
-      var select = document.getElementById('goodId');
-      datas.forEach(function(data) {
-        var option = document.createElement('option');
-        option.value = data[0];
-        option.text = data[0] + '.  ' +data[1];
-        select.appendChild(option);
-      });
-    }
-  </script>
 </head>
 
 <body>
-  <h1>แจ้งเบิกอะไหล่</h1>
-  <select id="selectId">
-  </select>
-  <select id="goodId">
-  </select>
-  <input type="number" id="amount" placeholder="จำนวน">
-  <button onclick="updateStock()">Update Stock</button>
-  <p id="result"></p>
+  <label for="description">โหลดหน้าเบิกอะไหล่</label><br>
+  
+
+  <script>
+
+liff.init({ liffId: "2000454945-LarO8z9O" }).then(() => {
+  if (liff.isLoggedIn()) {
+    liff.getProfile().then(profile => {
+      runApp(profile);
+    }).catch(error => {
+      console.log("Error getting profile:", error);
+    });
+  } else {
+    liff.login();
+  }
+}).catch(error => {
+  console.log("LIFF initialization error:", error);
+});
+
+function runApp(profile) {
+  console.log(profile);
+  location.replace('https://script.google.com/macros/s/AKfycbzp17QSPN8_i_hPF0cvU_YqddTNGHkRsahTf8OXgKCLqhIu3c4_03hochXP886CaQ8/exec?page=supply&userid='+profile.userId);
+}
+
+
+
+  </script>
 </body>
 
 </html>

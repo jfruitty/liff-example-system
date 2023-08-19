@@ -6,67 +6,34 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<script>
-  google.script.run
-    .withSuccessHandler(updateSelectOptions)
-    .getJobCustomerIds(<?=  userid ?>);
-
-
-    function updateSelectOptions(ids) {
-
-      var select = document.getElementById('selectId');
-      ids.forEach(function(id) {
-        var option = document.createElement('option');
-        option.value = id;
-        option.text = id;
-        select.appendChild(option);
-      });
-    }
-
-    document.getElementById("submitButton").addEventListener("click", function() {
-      
-      var image = document.getElementById("image").files[0];
-
-      var userId = <?=  userid ?> ;
-
-      var jobid = document.getElementById('selectId').value;
-
-      if (image) {
-
-       alert("ระบบใช้เวลาบันทึกสักครู่ โปรดอย่าปิดหน้าต่าง");
-        const fr = new FileReader();
-        fr.onload = function(e) {
-      const obj = {
-        filename: image.name,
-        mimeType: image.type,
-        bytes: [...new Int8Array(e.target.result)]
-      };
-      google.script.run.withSuccessHandler(onSuccess).uploadSlipToDrive(obj, "SlipImages", image.name);
-
-      
-
-    };
-    fr.readAsArrayBuffer(image);
-
-        function onSuccess(url) {
-          google.script.run.updateSheetforSlip(jobid, url); 
-          
-          alert("Form submitted successfully!");
-        }
-      } else {
-        alert("Please provide image.");
-      }
-    });
-</script>
-
 <body>
+  <label for="description">โหลดหน้าอัพโหลดสลิป</label><br>
+  
 
-  <label for="selectId">Job ID:</label>
-  <select id="selectId"></select><br>
-  <label for="image">แนบรูปสลิปโอนเงิน:</label><br>
-  <input type="file" id="image" name="image"><br><br>
-  <button id="submitButton">Submit</button>
+  <script>
 
+liff.init({ liffId: "2000454945-Dggaorza" }).then(() => {
+  if (liff.isLoggedIn()) {
+    liff.getProfile().then(profile => {
+      runApp(profile);
+    }).catch(error => {
+      console.log("Error getting profile:", error);
+    });
+  } else {
+    liff.login();
+  }
+}).catch(error => {
+  console.log("LIFF initialization error:", error);
+});
+
+function runApp(profile) {
+  console.log(profile);
+  location.replace('https://script.google.com/macros/s/AKfycbzp17QSPN8_i_hPF0cvU_YqddTNGHkRsahTf8OXgKCLqhIu3c4_03hochXP886CaQ8/exec?page=slip&userid='+profile.userId);
+}
+
+
+
+  </script>
 </body>
 
 </html>
