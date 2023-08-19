@@ -99,6 +99,11 @@
     
     liff.init({ liffId: "2000454945-mEl8eZP8" }, () => {
     if (liff.isLoggedIn()) {
+        const idToken = liff.getDecodedIDToken();
+        console.log(idToken);
+        const profile = liff.getProfile();
+        console.log(profile);
+        
      
     } else {
       liff.login();

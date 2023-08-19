@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 60px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.alert {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.alert.success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+  </style>
+   <script>
+    
+  
+  google.script.run
+    .withSuccessHandler(updateSelectOptions)
+    .getIdsWithAvailableStatus();
+
+
+    function updateSelectOptions(ids) {
+
+      var select = document.getElementById('selectId');
+      ids.forEach(function(id) {
+        var option = document.createElement('option');
+        option.value = id;
+        option.text = id;
+        select.appendChild(option);
+      });
+    }
+    
+    document.getElementById('reserveButton').addEventListener('click', function() {
+      var selectedId = document.getElementById('selectId').value;
+      var userid = <?=  userid ?> ;
+      var displayname = <?=  displayname ?> ;
+      google.script.run.reserveId(selectedId,userid,displayname);
+      alert('รับงานสำเร็จ');
+
+      // Get a reference to the select element
+      var selectElement = document.getElementById("selectId");
+
+      // Remove all option elements
+      while (selectElement.options.length > 0) {
+        selectElement.remove(0);
+      }
+
+      google.script.run.withSuccessHandler(updateSelectOptions).getIdsWithAvailableStatus();
+    });
+  </script>
+
+</head>
+<body>
+  <h1>ระบบรับงานช่าง</h1>
+  <label for="selectId">เลือก Job ID งานที่ต้องการรับ:</label>
+  <select id="selectId"></select>
+  <button id="reserveButton">รับงาน</button>
+  
+ 
+</body>
+</html>
+

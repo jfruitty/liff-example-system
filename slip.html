@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  select,
+  input[type="file"] {
+    width: 20%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .alert {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+  }
+</style>
+<script>
+  google.script.run
+    .withSuccessHandler(updateSelectOptions)
+    .getJobCustomerIds(<?=  userid ?>);
+
+
+    function updateSelectOptions(ids) {
+
+      var select = document.getElementById('selectId');
+      ids.forEach(function(id) {
+        var option = document.createElement('option');
+        option.value = id;
+        option.text = id;
+        select.appendChild(option);
+      });
+    }
+
+    document.getElementById("submitButton").addEventListener("click", function() {
+      
+      var image = document.getElementById("image").files[0];
+
+      var userId = <?=  userid ?> ;
+
+      var jobid = document.getElementById('selectId').value;
+
+      if (image) {
+
+       alert("ระบบใช้เวลาบันทึกสักครู่ โปรดอย่าปิดหน้าต่าง");
+        const fr = new FileReader();
+        fr.onload = function(e) {
+      const obj = {
+        filename: image.name,
+        mimeType: image.type,
+        bytes: [...new Int8Array(e.target.result)]
+      };
+      google.script.run.withSuccessHandler(onSuccess).uploadSlipToDrive(obj, "SlipImages", image.name);
+
+      
+
+    };
+    fr.readAsArrayBuffer(image);
+
+        function onSuccess(url) {
+          google.script.run.updateSheetforSlip(jobid, url); 
+          
+          alert("Form submitted successfully!");
+        }
+      } else {
+        alert("Please provide image.");
+      }
+    });
+</script>
+
+<body>
+
+  <label for="selectId">Job ID:</label>
+  <select id="selectId"></select><br>
+  <label for="image">แนบรูปสลิปโอนเงิน:</label><br>
+  <input type="file" id="image" name="image"><br><br>
+  <button id="submitButton">Submit</button>
+
+</body>
+
+</html>
