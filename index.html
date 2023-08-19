@@ -19,7 +19,7 @@
         const profile = liff.getProfile();
         console.log(profile);
 
-        runApp();
+        runApp(profile);
 
 
       } else {
@@ -32,11 +32,10 @@
     });
 
 
-    function runApp() {
-      const profile = liff.getProfile();
-      console.log(profile);
+    function runApp(profile) {
+     
       location.replace('https://script.google.com/macros/s/AKfycbxphRqO3JH4keP9levF6ZNpCV3PURBlMNBHQbRIxZnEpWfp08se_ke73BQB1lDE71YF/exec?page=form&userid='+profile.userId+'&displayname='+profile.displayName)
-      
+      console.log(profile);
     }
 
 
