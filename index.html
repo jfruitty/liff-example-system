@@ -35,7 +35,7 @@
     });
 
 async function uploadFileToDrive(fileBlob, folderName, fileName) {
-  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec"; // Replace with your script URL
+  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec?api=uploadFileToDrive"; // Replace with your script URL
   
   const requestData = {
     fileBlob: fileBlob,
@@ -70,7 +70,7 @@ async function uploadFileToDrive(fileBlob, folderName, fileName) {
 }
 
 async function sendDataToScript(userId, displayName, description, imageUrl) {
-  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec"; // Replace with your script URL
+  const apiUrl = "https://script.google.com/macros/s/AKfycbysUOlE5LYTnffqlGCLOW-7L3ArcSEL8WWhO8Sf8OszxY-4eNroEX61TdQ9ghpxXU6W/exec?api=updateSheet"; // Replace with your script URL
 
   const requestData = {
     userId: userId,
