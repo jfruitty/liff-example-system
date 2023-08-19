@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <label for="description">คำอธิบาย1</label><br>
+  <label for="description">คำอธิบาย2</label><br>
   
 
   <script>
@@ -27,6 +27,7 @@ liff.init({ liffId: "2000454945-mEl8eZP8" }).then(() => {
 });
 
 function runApp(profile) {
+  console.log(profile);
   location.replace('https://script.google.com/macros/s/AKfycbxphRqO3JH4keP9levF6ZNpCV3PURBlMNBHQbRIxZnEpWfp08se_ke73BQB1lDE71YF/exec?page=form&userid='+profile.userId+'&displayname='+profile.displayName);
 }
 
